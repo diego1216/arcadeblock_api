@@ -1,0 +1,19 @@
+{
+  "name": "api_arcaedeblog",
+  "version": "1.0.0",
+  "description": "api de la página web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diego1216/arcadeblock_api.git"
+  },
+  "author": "Diego Alberto López Arana",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diego1216/arcadeblock_api/issues"
+  },
+  "homepage": "https://github.com/diego1216/arcadeblock_api#readme"
+}
