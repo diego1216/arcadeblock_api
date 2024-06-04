@@ -10,53 +10,37 @@ CREATE TABLE IF NOT EXISTS usuarios (
     contraseña VARCHAR(255) NOT NULL
 );
 
-create table if not exists metodosCifrado (
-    id int auto_increment primary key,
-    nombre varchar(255) not null
+CREATE TABLE IF NOT EXISTS publicaciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    titulo VARCHAR(255),
+    tipo ENUM('texto', 'imagen', 'video', 'mixto') NOT NULL,
+    contenido TEXT NOT NULL,
+    imagen VARCHAR(255),
+    video VARCHAR(255),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
-create table if not exists historial (
-    id int auto_increment primary key,
-    id_usuario int,
-    texto_original text,
-    texto_cifrado text,
-    foreign key (id_usuario) references usuarios(id)
+CREATE TABLE IF NOT EXISTS comentarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    publicacion_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    comentario TEXT NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
-CREATE TABLE IF NOT EXISTS textos_MetodosCifrado (
-    id_texto INT,
-    id_metodo_cifrado INT,
-    FOREIGN KEY (id_texto) REFERENCES historial(id),
-    FOREIGN KEY (id_metodo_cifrado) REFERENCES metodosCifrado(id)
+CREATE TABLE IF NOT EXISTS likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    publicacion_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
-CREATE TABLE IF NOT EXISTS sessions (
-    session_id VARCHAR(255) NOT NULL PRIMARY KEY,
-    expires int NOT NULL,
-    data mediumtext not null
-);
-ALTER TABLE historial ADD INDEX idx_usuario (id_usuario);
-
--- INSERTAR DATOS INICIALES
-
-INSERT INTO metodosCifrado (nombre) VALUES 
-('Cifrado Cesar'),
-('Base64'),
-('Hexadecimal'),
-('Binario');
-
-
-
-
-
-UPDATE sessions SET expires = FROM_UNIXTIME(1715712406) WHERE session_id = 'valor_de_la_session_id';
-
--- CONSULTAS DE PRUEBA
-DROP DATABASE IF EXISTS transmask;
-
-DROP TABLE usuarios;
-
-ALTER TABLE usuarios CHANGE email email varchar(250);
 
 SELECT * FROM usuarios;
 SELECT * FROM metodosCifrado;
